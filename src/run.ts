@@ -3,7 +3,7 @@ import { stat } from "fs/promises";
 import { getBrotliSize, getGzipSize } from "./compress";
 import { Config } from "./config";
 import { logger } from "./logger";
-import { reportConsole } from "./report";
+import { reportConsole, reportJson } from "./report";
 
 export interface FileSize {
 	file: string;
@@ -48,5 +48,9 @@ export async function run(config: Config) {
 		process.exit(1);
 	}
 
-	reportConsole(sizes);
+	if (config.output === "json") {
+		reportJson(sizes);
+	} else {
+		reportConsole(sizes);
+	}
 }
