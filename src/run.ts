@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFile } from "fs/promises";
 import { getBrotliSize, getGzipSize } from "./compress";
 import { Config } from "./config";
 import { reportConsole } from "./report";
@@ -10,24 +10,23 @@ export interface FileSize {
 	brotli: number;
 }
 
-export function getFileSizes(files: string[]): FileSize[] {
-	const sizes: FileSize[] = [];
+export async function getFileSizes(files: string[]): Promise<FileSize[]> {
+	const sizes: FileSize[] = await Promise.all(
+		files.map(async file => {
+			const buffer = await readFile(file);
 
-	for (const file of files) {
-		const buffer = readFileSync(file);
+			const plain = buffer.length;
+			const [gzip, brotli] = await Promise.all([getGzipSize(buffer), getBrotliSize(buffer)]);
 
-		const plain = buffer.length;
-		const gzip = getGzipSize(buffer);
-		const brotli = getBrotliSize(buffer);
-
-		sizes.push({ file, plain, gzip, brotli });
-	}
+			return { file, plain, gzip, brotli };
+		})
+	);
 
 	return sizes;
 }
 
-export function run(config: Config) {
-	const sizes = getFileSizes(config.files);
+export async function run(config: Config) {
+	const sizes = await getFileSizes(config.files);
 
 	reportConsole(sizes);
 }
