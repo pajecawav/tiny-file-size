@@ -1,9 +1,8 @@
 import { existsSync, statSync } from "fs";
-import { stat } from "fs/promises";
-import { getBrotliSize, getGzipSize } from "./compress";
+import { getBrotliSize, getGzipSize, getPlainSize } from "./compress";
 import { Config } from "./config";
 import { logger } from "./logger";
-import { reportConsole, reportJson } from "./report";
+import { buildPrettyReport, buildJsonReport } from "./report";
 
 export interface FileSize {
 	file: string;
@@ -12,11 +11,17 @@ export interface FileSize {
 	brotli: number | null;
 }
 
-export async function getFileSizes(config: Config): Promise<FileSize[]> {
+interface FileSizesOptions {
+	files: string[];
+	gzip: boolean;
+	brotli: boolean;
+}
+
+export async function getFileSizes(config: FileSizesOptions): Promise<FileSize[]> {
 	const sizes: FileSize[] = await Promise.all(
 		config.files.map(async file => {
 			const [plain, gzip, brotli] = await Promise.all([
-				stat(file).then(({ size }) => size),
+				getPlainSize(file),
 				config.gzip ? getGzipSize(file) : null,
 				config.brotli ? getBrotliSize(file) : null,
 			]);
@@ -49,8 +54,8 @@ export async function run(config: Config) {
 	}
 
 	if (config.output === "json") {
-		reportJson(sizes);
+		console.log(buildJsonReport(sizes));
 	} else {
-		reportConsole(sizes);
+		console.log(buildPrettyReport(sizes));
 	}
 }

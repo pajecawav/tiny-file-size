@@ -1,0 +1,25 @@
+// Vitest Snapshot v1
+
+exports[`compress > calculates plain size 1`] = `
+[
+  2519,
+  4183,
+  2877,
+]
+`;
+
+exports[`compress > compresses with brotli 1`] = `
+[
+  1395,
+  2193,
+  1142,
+]
+`;
+
+exports[`compress > compresses with gzip 1`] = `
+[
+  1484,
+  2410,
+  1205,
+]
+`;

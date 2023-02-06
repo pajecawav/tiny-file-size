@@ -31,17 +31,17 @@ ${bold("Examples:")}
   file-size --json foo.js bar.json
 `.trim();
 
-function parseArgs(): Config {
+export function parseArgs(args: string[]): Config {
 	let files: string[] = [];
 	let gzip = false;
 	let brotli = false;
 	let output: Config["output"] = "pretty";
 
-	for (let i = 2; i < process.argv.length; i++) {
-		const arg = process.argv[i];
+	for (let i = 0; i < args.length; i++) {
+		const arg = args[i];
 
 		if (arg[0] !== "-") {
-			files = process.argv.slice(i);
+			files = args.slice(i);
 			break;
 		}
 
@@ -74,4 +74,4 @@ function parseArgs(): Config {
 	return { files, gzip, brotli, output };
 }
 
-export const config = parseArgs();
+export const config = parseArgs(process.argv.slice(2));

@@ -2,11 +2,13 @@ import path from "path";
 import { bold, dim, green } from "picocolors";
 import { FileSize } from "./run";
 
-export function reportJson(sizes: FileSize[]) {
-	console.log(sizes);
+export function buildJsonReport(sizes: FileSize[]): string {
+	return JSON.stringify(sizes, undefined, 4);
 }
 
-export function reportConsole(sizes: FileSize[]) {
+export function buildPrettyReport(sizes: FileSize[]): string {
+	const lines: string[] = [];
+
 	const longestPath = Math.max(...sizes.map(size => size.file.length));
 	const longestPlainSize = Math.max(...sizes.map(size => humanizeBytes(size.plain).length));
 	const longestGzipSize = Math.max(...sizes.map(size => humanizeBytes(size.gzip ?? 0).length));
@@ -17,26 +19,28 @@ export function reportConsole(sizes: FileSize[]) {
 	for (const { file, plain, gzip, brotli } of sizes) {
 		const { dir, base } = path.parse(file);
 
-		let message = "";
+		let line = "";
 
 		const basePadding = longestPath - (dir ? dir.length + 1 : 0);
 		const pathStr = (dir ? `${dim(dir)}/` : "") + `${green(base.padEnd(basePadding))}`;
-		message += pathStr;
+		line += pathStr;
 
-		message += " " + bold(humanizeBytes(plain).padStart(longestPlainSize));
+		line += " " + bold(humanizeBytes(plain).padStart(longestPlainSize));
 
 		if (gzip !== null) {
 			const gzipStr = humanizeBytes(gzip).padStart(longestGzipSize);
-			message += dim(` │ gzip: ${gzipStr}`);
+			line += dim(` │ gzip: ${gzipStr}`);
 		}
 
 		if (brotli !== null) {
 			const brotliStr = humanizeBytes(brotli).padStart(longestBrotliSize);
-			message += dim(` │ brotli: ${brotliStr}`);
+			line += dim(` │ brotli: ${brotliStr}`);
 		}
 
-		console.log(message);
+		lines.push(line);
 	}
+
+	return lines.join("\n");
 }
 
 function humanizeBytes(bytes: number): string {

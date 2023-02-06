@@ -1,5 +1,10 @@
 import { createReadStream } from "fs";
+import { stat } from "fs/promises";
 import { createBrotliCompress, createGzip } from "zlib";
+
+export async function getPlainSize(file: string): Promise<number> {
+	return (await stat(file)).size;
+}
 
 export function getGzipSize(file: string): Promise<number> {
 	return new Promise((resolve, reject) => {

@@ -1,0 +1,47 @@
+// Vitest Snapshot v1
+
+exports[`getFileSizes > counts gzip and brotli sizes 1`] = `
+[
+  {
+    "brotli": 1395,
+    "file": "tests/fixtures/data/foo.md",
+    "gzip": 1484,
+    "plain": 2519,
+  },
+  {
+    "brotli": 2193,
+    "file": "tests/fixtures/data/lorem.md",
+    "gzip": 2410,
+    "plain": 4183,
+  },
+  {
+    "brotli": 1142,
+    "file": "tests/fixtures/data/lorem.txt",
+    "gzip": 1205,
+    "plain": 2877,
+  },
+]
+`;
+
+exports[`getFileSizes > counts plain sizes by default 1`] = `
+[
+  {
+    "brotli": null,
+    "file": "tests/fixtures/data/foo.md",
+    "gzip": null,
+    "plain": 2519,
+  },
+  {
+    "brotli": null,
+    "file": "tests/fixtures/data/lorem.md",
+    "gzip": null,
+    "plain": 4183,
+  },
+  {
+    "brotli": null,
+    "file": "tests/fixtures/data/lorem.txt",
+    "gzip": null,
+    "plain": 2877,
+  },
+]
+`;
