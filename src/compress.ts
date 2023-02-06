@@ -1,19 +1,26 @@
-import zlib from "zlib";
+import { createReadStream } from "fs";
+import { createBrotliCompress, createGzip } from "zlib";
 
-export function getGzipSize(buffer: Buffer): Promise<number> {
+export function getGzipSize(file: string): Promise<number> {
 	return new Promise((resolve, reject) => {
-		zlib.gzip(buffer, (error, result) => {
-			if (error) return reject(error);
-			resolve(result.length);
-		});
+		let size = 0;
+
+		createReadStream(file)
+			.pipe(createGzip())
+			.on("data", chunk => (size += chunk.length))
+			.on("error", reject)
+			.on("end", () => resolve(size));
 	});
 }
 
-export function getBrotliSize(buffer: Buffer): Promise<number> {
+export function getBrotliSize(file: string): Promise<number> {
 	return new Promise((resolve, reject) => {
-		zlib.brotliCompress(buffer, (error, result) => {
-			if (error) return reject(error);
-			resolve(result.length);
-		});
+		let size = 0;
+
+		createReadStream(file)
+			.pipe(createBrotliCompress())
+			.on("data", chunk => (size += chunk.length))
+			.on("error", reject)
+			.on("end", () => resolve(size));
 	});
 }
