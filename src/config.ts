@@ -1,3 +1,5 @@
+import { bold } from "picocolors";
+import { version } from "../package.json";
 import { logger } from "./logger";
 
 export interface Config {
@@ -6,6 +8,18 @@ export interface Config {
 	brotli: boolean;
 	output: "json" | "pretty";
 }
+
+const HELP = `
+${bold("Usage:")}
+  file-size [options] [files...]
+
+${bold("Options:")}
+  -h, --help                     Show help
+      --gzip                     Include gzip size in output 
+      --brotli                   Include brotli size in output 
+      --json                     Print result as json
+  -v, --version                  Print the current version (${version}) and exit
+`.trim();
 
 function parseArgs(): Config {
 	let files: string[] = [];
@@ -22,6 +36,16 @@ function parseArgs(): Config {
 		}
 
 		switch (arg) {
+			case "-h":
+			case "--help":
+				console.log(HELP);
+				process.exit(0);
+				break;
+			case "-v":
+			case "--version":
+				console.log(version);
+				process.exit(0);
+				break;
 			case "--gzip":
 				gzip = true;
 				break;
