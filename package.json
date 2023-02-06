@@ -1,12 +1,21 @@
 {
 	"name": "tiny-file-size",
 	"version": "0.1.0",
-	"main": "dist/index.js",
-	"module": "dist/index.mjs",
-	"types": "dist/index.d.ts",
+	"description": "CLI tool for calculating size of files on disk",
+	"keywords": [
+		"cli",
+		"tool",
+		"size",
+		"compressed",
+		"gzip",
+		"brotli"
+	],
 	"repository": "https://github.com/pajecawav/tiny-file-size.git",
 	"bugs": "https://github.com/pajecawav/tiny-file-size/issues",
 	"homepage": "https://github.com/pajecawav/tiny-file-size#readme",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
 	"bin": {
 		"file-size": "dist/cli.js"
 	},
@@ -17,6 +26,7 @@
 		"dist/*.d.ts"
 	],
 	"license": "MIT",
+	"sideEffects": false,
 	"scripts": {
 		"build": "tsup",
 		"test": "vitest run",

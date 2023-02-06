@@ -19,6 +19,16 @@ ${bold("Options:")}
       --brotli                   Include brotli size in output 
       --json                     Print result as json
   -v, --version                  Print the current version (${version}) and exit
+
+${bold("Examples:")}
+  # Show sizes of files foo.js and bar.json
+  file-size foo.js bar.json
+
+  # Include sizes after gzip and brotli
+  file-size --gzip --brotli foo.js bar.json
+
+  # Print output as JSON
+  file-size --json foo.js bar.json
 `.trim();
 
 function parseArgs(): Config {
