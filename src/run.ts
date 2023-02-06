@@ -1,6 +1,7 @@
 import { stat } from "fs/promises";
 import { getBrotliSize, getGzipSize } from "./compress";
 import { Config } from "./config";
+import { logger } from "./logger";
 import { reportConsole } from "./report";
 
 export interface FileSize {
@@ -35,7 +36,7 @@ export async function run(config: Config) {
 			throw e;
 		}
 
-		console.error(e.message);
+		logger.error(e.message);
 		process.exit(1);
 	}
 
