@@ -8,17 +8,17 @@ import { reportConsole } from "./report";
 export interface FileSize {
 	file: string;
 	plain: number;
-	gzip: number;
-	brotli: number;
+	gzip: number | null;
+	brotli: number | null;
 }
 
-export async function getFileSizes(files: string[]): Promise<FileSize[]> {
+export async function getFileSizes(config: Config): Promise<FileSize[]> {
 	const sizes: FileSize[] = await Promise.all(
-		files.map(async file => {
+		config.files.map(async file => {
 			const [plain, gzip, brotli] = await Promise.all([
 				stat(file).then(({ size }) => size),
-				getGzipSize(file),
-				getBrotliSize(file),
+				config.gzip ? getGzipSize(file) : null,
+				config.brotli ? getBrotliSize(file) : null,
 			]);
 
 			return { file, plain, gzip, brotli };
@@ -38,7 +38,7 @@ export async function run(config: Config) {
 
 	let sizes: FileSize[];
 	try {
-		sizes = await getFileSizes(config.files);
+		sizes = await getFileSizes(config);
 	} catch (e: unknown) {
 		if (!(e instanceof Error)) {
 			throw e;
