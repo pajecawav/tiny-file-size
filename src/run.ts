@@ -1,3 +1,4 @@
+import { existsSync, statSync } from "fs";
 import { stat } from "fs/promises";
 import { getBrotliSize, getGzipSize } from "./compress";
 import { Config } from "./config";
@@ -28,6 +29,13 @@ export async function getFileSizes(files: string[]): Promise<FileSize[]> {
 }
 
 export async function run(config: Config) {
+	for (const file of config.files) {
+		if (!existsSync(file) || !statSync(file).isFile()) {
+			logger.error(`No such file ${file}`);
+			process.exit(1);
+		}
+	}
+
 	let sizes: FileSize[];
 	try {
 		sizes = await getFileSizes(config.files);
