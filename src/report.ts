@@ -7,16 +7,26 @@ export function reportJson(sizes: FileSize[]) {
 }
 
 export function reportConsole(sizes: FileSize[]) {
+	const longestPath = Math.max(...sizes.map(size => size.file.length));
+	const longestPlainSize = Math.max(...sizes.map(size => humanizeBytes(size.plain).length));
+	const longestGzipSize = Math.max(...sizes.map(size => humanizeBytes(size.gzip).length));
+	const longestBrotliSize = Math.max(...sizes.map(size => humanizeBytes(size.brotli).length));
+
 	for (const { file, plain, gzip, brotli } of sizes) {
 		const { dir, base } = path.parse(file);
 
-		const pathStr = (dir ? dim(dir + "/") : "") + green(base);
+		const basePadding = longestPath - (dir ? dir.length + 1 : 0);
+		const pathStr = (dir ? `${dim(dir)}/` : "") + `${green(base.padEnd(basePadding))}`;
 
-		const plainStr = humanizeBytes(plain);
-		const gzipStr = humanizeBytes(gzip);
-		const brotliStr = humanizeBytes(brotli);
+		const plainStr = humanizeBytes(plain).padStart(longestPlainSize);
+		const gzipStr = humanizeBytes(gzip).padStart(longestGzipSize);
+		const brotliStr = humanizeBytes(brotli).padStart(longestBrotliSize);
 
-		console.log(`${pathStr}: ${bold(plainStr)} (${gzipStr} gzip, ${brotliStr} brotli)`);
+		console.log(
+			`${pathStr} ${bold(plainStr)}`,
+			dim(`│ gzip: ${gzipStr}`),
+			dim(`│ brotli: ${brotliStr}`)
+		);
 	}
 }
 
@@ -30,9 +40,6 @@ function humanizeBytes(bytes: number): string {
 		bytes /= 1024;
 	}
 
-	if (suffix === "B") {
-		return `${bytes.toFixed(0)} ${suffix}`;
-	}
-
-	return `${bytes.toFixed(2)} ${suffix}`;
+	const precision = suffix === "B" ? 0 : 2;
+	return `${bytes.toFixed(precision)} ${suffix}`;
 }
