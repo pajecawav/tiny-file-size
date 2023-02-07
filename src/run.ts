@@ -54,10 +54,13 @@ export async function run(config: Config) {
 	}
 
 	let report: string;
-	if (config.output === "json") {
-		report = buildJsonReport(sizes);
-	} else {
-		report = buildPrettyReport(sizes, { total: config.total });
+	switch (config.output) {
+		case "json":
+			report = buildJsonReport(sizes);
+			break;
+		case "pretty":
+			report = buildPrettyReport(sizes, { total: config.total });
+			break;
 	}
 
 	console.log(report);

@@ -87,7 +87,7 @@ export function buildPrettyReport(
 
 function humanizeBytes(bytes: number): string {
 	let suffix = "MB";
-	for (const suff of ["B", "KB"]) {
+	for (const suff of [" B", "KB"]) {
 		if (bytes < 1024) {
 			suffix = suff;
 			break;
