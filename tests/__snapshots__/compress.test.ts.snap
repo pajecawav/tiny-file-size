@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`compress > calculates plain size 1`] = `
+exports[`compress > calculates raw size 1`] = `
 [
   2519,
   4183,

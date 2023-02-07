@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { getBrotliSize, getGzipSize, getPlainSize } from "../src/compress";
+import { getBrotliSize, getGzipSize, getRawSize } from "../src/compress";
 import { files } from "./fixtures/files";
 
 describe("compress", () => {
-	it("calculates plain size", async () => {
-		const sizes = await Promise.all(files.map(file => getPlainSize(file)));
+	it("calculates raw size", async () => {
+		const sizes = await Promise.all(files.map(file => getRawSize(file)));
 		expect(sizes).toMatchSnapshot();
 	});
 

@@ -10,13 +10,13 @@ export function buildPrettyReport(sizes: FileSize[]): string {
 	const lines: string[] = [];
 
 	const longestPath = Math.max(...sizes.map(size => size.file.length));
-	const longestPlainSize = Math.max(...sizes.map(size => humanizeBytes(size.plain).length));
+	const longestRawSize = Math.max(...sizes.map(size => humanizeBytes(size.raw).length));
 	const longestGzipSize = Math.max(...sizes.map(size => humanizeBytes(size.gzip ?? 0).length));
 	const longestBrotliSize = Math.max(
 		...sizes.map(size => humanizeBytes(size.brotli ?? 0).length)
 	);
 
-	for (const { file, plain, gzip, brotli } of sizes) {
+	for (const { file, raw, gzip, brotli } of sizes) {
 		const { dir, base } = path.parse(file);
 
 		let line = "";
@@ -25,7 +25,7 @@ export function buildPrettyReport(sizes: FileSize[]): string {
 		const pathStr = (dir ? `${dim(dir)}/` : "") + `${green(base.padEnd(basePadding))}`;
 		line += pathStr;
 
-		line += " " + bold(humanizeBytes(plain).padStart(longestPlainSize));
+		line += " " + bold(humanizeBytes(raw).padStart(longestRawSize));
 
 		if (gzip !== null) {
 			const gzipStr = humanizeBytes(gzip).padStart(longestGzipSize);

@@ -3,7 +3,7 @@ import { getFileSizes } from "../src/run";
 import { files } from "./fixtures/files";
 
 describe("getFileSizes", () => {
-	it("counts plain sizes by default", async () => {
+	it("counts raw sizes by default", async () => {
 		const sizes = await getFileSizes({ files, gzip: false, brotli: false });
 		expect(sizes).toMatchSnapshot();
 	});
