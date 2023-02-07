@@ -42,3 +42,12 @@ exports[`report > pretty 1`] = `
 [32msimple.file.ts       [39m [1m  1.21 KB[22m[2m │ brotli:  5.54 KB[22m
 [2mtest[22m/[32mpackage.json    [39m [1m  4.34 KB[22m"
 `;
+
+exports[`report > pretty with total size 1`] = `
+"[32mfoo.js               [39m [1m120.56 KB[22m[2m │ gzip:  5.53 KB[22m[2m │ brotli:    123 B[22m
+[2msome/sub/path[22m/[32mbar.md [39m [1m434.69 KB[22m[2m │ gzip: 80.79 KB[22m[2m │ brotli: 27.71 KB[22m
+[2manother/folder[22m/[32mbaz.js[39m [1m  1.21 KB[22m[2m │ gzip:  5.54 KB[22m
+[32msimple.file.ts       [39m [1m  1.21 KB[22m[2m │ brotli:  5.54 KB[22m
+[2mtest[22m/[32mpackage.json    [39m [1m  4.34 KB[22m
+[1mTotal:               [22m [1m562.00 KB[22m[2m │ gzip: 91.87 KB[22m[2m │ brotli: 33.37 KB[22m"
+`;

@@ -1,12 +1,20 @@
 import path from "path";
 import { bold, dim, green } from "picocolors";
 import { FileSize } from "./run";
+import { sum } from "./utils";
 
 export function buildJsonReport(sizes: FileSize[]): string {
 	return JSON.stringify(sizes, undefined, 4);
 }
 
-export function buildPrettyReport(sizes: FileSize[]): string {
+interface PrettyReportOptions {
+	total?: boolean;
+}
+
+export function buildPrettyReport(
+	sizes: FileSize[],
+	{ total = false }: PrettyReportOptions = {}
+): string {
 	const lines: string[] = [];
 
 	const longestPath = Math.max(...sizes.map(size => size.file.length));
@@ -15,6 +23,20 @@ export function buildPrettyReport(sizes: FileSize[]): string {
 	const longestBrotliSize = Math.max(
 		...sizes.map(size => humanizeBytes(size.brotli ?? 0).length)
 	);
+
+	function formatSize(size: number): string {
+		return bold(humanizeBytes(size).padStart(longestRawSize));
+	}
+
+	function formatGzip(size: number): string {
+		const str = humanizeBytes(size).padStart(longestGzipSize);
+		return dim(` │ gzip: ${str}`);
+	}
+
+	function formatBrotli(size: number): string {
+		const str = humanizeBytes(size).padStart(longestBrotliSize);
+		return dim(` │ brotli: ${str}`);
+	}
 
 	for (const { file, raw, gzip, brotli } of sizes) {
 		const { dir, base } = path.parse(file);
@@ -25,16 +47,36 @@ export function buildPrettyReport(sizes: FileSize[]): string {
 		const pathStr = (dir ? `${dim(dir)}/` : "") + `${green(base.padEnd(basePadding))}`;
 		line += pathStr;
 
-		line += " " + bold(humanizeBytes(raw).padStart(longestRawSize));
+		line += " " + formatSize(raw);
 
 		if (gzip !== null) {
-			const gzipStr = humanizeBytes(gzip).padStart(longestGzipSize);
-			line += dim(` │ gzip: ${gzipStr}`);
+			line += formatGzip(gzip);
 		}
 
 		if (brotli !== null) {
-			const brotliStr = humanizeBytes(brotli).padStart(longestBrotliSize);
-			line += dim(` │ brotli: ${brotliStr}`);
+			line += formatBrotli(brotli);
+		}
+
+		lines.push(line);
+	}
+
+	if (total) {
+		const totalSize = sum(sizes.map(size => size.raw));
+		const totalGzipSize = sum(sizes.map(size => size.gzip ?? 0));
+		const totalBrotliSize = sum(sizes.map(size => size.brotli ?? 0));
+
+		let line = "";
+
+		line += bold("Total:".padEnd(longestPath));
+
+		line += " " + formatSize(totalSize);
+
+		if (totalGzipSize) {
+			line += formatGzip(totalGzipSize);
+		}
+
+		if (totalBrotliSize) {
+			line += formatBrotli(totalBrotliSize);
 		}
 
 		lines.push(line);

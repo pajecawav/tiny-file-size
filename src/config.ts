@@ -7,6 +7,7 @@ export interface Config {
 	gzip: boolean;
 	brotli: boolean;
 	output: "json" | "pretty";
+	total: boolean;
 }
 
 const HELP = `
@@ -17,6 +18,7 @@ ${bold("Options:")}
   -h, --help                     Show help
       --gzip                     Include gzip size in output 
       --brotli                   Include brotli size in output 
+      --total                    Include total size in output
       --json                     Print result as json
   -v, --version                  Print the current version (${version}) and exit
 
@@ -36,6 +38,7 @@ export function parseArgs(args: string[]): Config {
 	let gzip = false;
 	let brotli = false;
 	let output: Config["output"] = "pretty";
+	let total = false;
 
 	for (let i = 0; i < args.length; i++) {
 		const arg = args[i];
@@ -65,13 +68,16 @@ export function parseArgs(args: string[]): Config {
 			case "--json":
 				output = "json";
 				break;
+			case "--total":
+				total = true;
+				break;
 			default:
 				logger.error(`Unknown argument ${arg}`);
 				process.exit(1);
 		}
 	}
 
-	return { files, gzip, brotli, output };
+	return { files, gzip, brotli, output, total };
 }
 
 export const config = parseArgs(process.argv.slice(2));

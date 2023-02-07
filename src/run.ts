@@ -53,9 +53,12 @@ export async function run(config: Config) {
 		process.exit(1);
 	}
 
+	let report: string;
 	if (config.output === "json") {
-		console.log(buildJsonReport(sizes));
+		report = buildJsonReport(sizes);
 	} else {
-		console.log(buildPrettyReport(sizes));
+		report = buildPrettyReport(sizes, { total: config.total });
 	}
+
+	console.log(report);
 }

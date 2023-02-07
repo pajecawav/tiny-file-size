@@ -20,4 +20,9 @@ describe("report", () => {
 		const report = buildPrettyReport(sizes);
 		expect(report).toMatchSnapshot();
 	});
+
+	it("pretty with total size", () => {
+		const report = buildPrettyReport(sizes, { total: true });
+		expect(report).toMatchSnapshot();
+	});
 });

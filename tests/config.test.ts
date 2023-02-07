@@ -28,4 +28,9 @@ describe("config", () => {
 		const config = parseArgs(["--json", "foo.txt"]);
 		expect(config.output).toBe("json");
 	});
+
+	it("parses argument for displaying total size", () => {
+		const config = parseArgs(["--total", "foo.txt"]);
+		expect(config.total).toBe(true);
+	});
 });

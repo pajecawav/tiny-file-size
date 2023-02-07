@@ -38,6 +38,7 @@ Options:
   -h, --help                     Show help
       --gzip                     Include gzip size in output
       --brotli                   Include brotli size in output
+      --total                    Include total size in output
       --json                     Print result as json
   -v, --version                  Print the current version (0.1.0) and exit
 
