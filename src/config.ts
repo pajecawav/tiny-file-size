@@ -16,11 +16,11 @@ ${bold("Usage:")}
 
 ${bold("Options:")}
   -h, --help                     Show help
-      --gzip                     Include gzip size in output 
-      --brotli                   Include brotli size in output 
+  -g, --gzip                     Include gzip size in output 
+  -b, --brotli                   Include brotli size in output 
       --total                    Include total size in output
       --json                     Print result as json
-  -v, --version                  Print the current version (${version}) and exit
+  -v, --version                  Print the current version and exit
 
 ${bold("Examples:")}
   # Show sizes of files foo.js and bar.json
@@ -59,9 +59,11 @@ export function parseArgs(args: string[]): Config {
 				console.log(version);
 				process.exit(0);
 				break;
+			case "-g":
 			case "--gzip":
 				gzip = true;
 				break;
+			case "-b":
 			case "--brotli":
 				brotli = true;
 				break;

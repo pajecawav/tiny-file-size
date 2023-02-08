@@ -36,11 +36,11 @@ Usage:
 
 Options:
   -h, --help                     Show help
-      --gzip                     Include gzip size in output
-      --brotli                   Include brotli size in output
+  -g, --gzip                     Include gzip size in output
+  -b, --brotli                   Include brotli size in output
       --total                    Include total size in output
       --json                     Print result as json
-  -v, --version                  Print the current version (0.1.0) and exit
+  -v, --version                  Print the current version and exit
 
 Examples:
   # Show sizes of files foo.js and bar.json

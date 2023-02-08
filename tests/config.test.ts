@@ -19,6 +19,12 @@ describe("config", () => {
 		expect(config.brotli).toBe(true);
 	});
 
+	it("parses short arguments to enable gzip and brotli", () => {
+		const config = parseArgs(["-g", "-b", "baz.json"]);
+		expect(config.gzip).toBe(true);
+		expect(config.brotli).toBe(true);
+	});
+
 	it("defaults to pretty output", () => {
 		const config = parseArgs(["foo.txt", "foo.md", "bar.json"]);
 		expect(config.output).toBe("pretty");
