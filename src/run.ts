@@ -1,4 +1,5 @@
 import { existsSync, statSync } from "fs";
+import { globbySync, isDynamicPattern } from "globby";
 import { getBrotliSize, getGzipSize, getRawSize } from "./compress";
 import { Config } from "./config";
 import { logger } from "./logger";
@@ -33,17 +34,43 @@ export async function getFileSizes(config: FileSizesOptions): Promise<FileSize[]
 	return sizes;
 }
 
-export async function run(config: Config) {
-	for (const file of config.files) {
-		if (!existsSync(file) || !statSync(file).isFile()) {
-			logger.error(`No such file ${file}`);
-			process.exit(1);
+export function getFilesFromGlobs(globs: string[]): string[] {
+	const filesSet = new Set<string>();
+
+	for (const globOrFile of globs) {
+		// each
+		if (isDynamicPattern(globOrFile)) {
+			for (const file of globbySync(globOrFile)) {
+				filesSet.add(file);
+			}
+		} else {
+			if (!existsSync(globOrFile) || !statSync(globOrFile).isFile()) {
+				throw new Error(`No such file ${globOrFile}`);
+			}
+
+			filesSet.add(globOrFile);
 		}
+	}
+
+	return Array.from(filesSet);
+}
+
+export async function run(config: Config) {
+	let files: string[];
+	try {
+		files = getFilesFromGlobs(config.files);
+	} catch (e: unknown) {
+		if (!(e instanceof Error)) {
+			throw e;
+		}
+
+		logger.error(e.message);
+		process.exit(1);
 	}
 
 	let sizes: FileSize[];
 	try {
-		sizes = await getFileSizes(config);
+		sizes = await getFileSizes({ ...config, files });
 	} catch (e: unknown) {
 		if (!(e instanceof Error)) {
 			throw e;
