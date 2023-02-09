@@ -39,7 +39,7 @@
 		"lint:format": "prettier . --check",
 		"format": "prettier . --write",
 		"prepare": "husky install",
-		"prepublishOnly": "pnpm lint && pnpm build"
+		"prepublishOnly": "pnpm lint && pnpm test && pnpm build"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.4.2",
