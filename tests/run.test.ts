@@ -28,11 +28,11 @@ describe("getFilesFromGlobs", () => {
 		expect(files).toMatchSnapshot();
 	});
 
-	it("throws when file doesn't exist", async () => {
+	it("throws when file doesn't exist", () => {
 		const fn = () => {
 			getFilesFromGlobs([resolveDataFixture("lorem.txt"), resolveDataFixture("doesntexist")]);
 		};
 
-		await expect(fn).toThrow(/no such file/i);
+		expect(fn).toThrow(/no such file/i);
 	});
 });

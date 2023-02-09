@@ -1,5 +1,5 @@
 import { existsSync, statSync } from "fs";
-import { globbySync, isDynamicPattern } from "globby";
+import glob from "glob";
 import { getBrotliSize, getGzipSize, getRawSize } from "./compress";
 import { Config } from "./config";
 import { logger } from "./logger";
@@ -39,8 +39,8 @@ export function getFilesFromGlobs(globs: string[]): string[] {
 
 	for (const globOrFile of globs) {
 		// each
-		if (isDynamicPattern(globOrFile)) {
-			for (const file of globbySync(globOrFile)) {
+		if (glob.hasMagic(globOrFile)) {
+			for (const file of glob.sync(globOrFile)) {
 				filesSet.add(file);
 			}
 		} else {
