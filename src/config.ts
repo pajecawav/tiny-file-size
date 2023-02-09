@@ -34,17 +34,19 @@ ${bold("Examples:")}
 `.trim();
 
 export function parseArgs(args: string[]): Config {
-	let files: string[] = [];
-	let gzip = false;
-	let brotli = false;
-	let output: Config["output"] = "pretty";
-	let total = false;
+	const cfg: Config = {
+		files: [],
+		gzip: false,
+		brotli: false,
+		output: "pretty",
+		total: false,
+	};
 
 	for (let i = 0; i < args.length; i++) {
 		const arg = args[i];
 
 		if (arg[0] !== "-") {
-			files = args.slice(i);
+			cfg.files = args.slice(i);
 			break;
 		}
 
@@ -61,17 +63,17 @@ export function parseArgs(args: string[]): Config {
 				break;
 			case "-g":
 			case "--gzip":
-				gzip = true;
+				cfg.gzip = true;
 				break;
 			case "-b":
 			case "--brotli":
-				brotli = true;
+				cfg.brotli = true;
 				break;
 			case "--json":
-				output = "json";
+				cfg.output = "json";
 				break;
 			case "--total":
-				total = true;
+				cfg.total = true;
 				break;
 			default:
 				logger.error(`Unknown argument ${arg}`);
@@ -79,7 +81,7 @@ export function parseArgs(args: string[]): Config {
 		}
 	}
 
-	return { files, gzip, brotli, output, total };
+	return cfg;
 }
 
 export const config = parseArgs(process.argv.slice(2));
