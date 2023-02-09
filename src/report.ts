@@ -7,7 +7,7 @@ export function buildJsonReport(sizes: FileSize[]): string {
 	return JSON.stringify(sizes, undefined, 4);
 }
 
-interface PrettyReportOptions {
+export interface PrettyReportOptions {
 	total?: boolean;
 }
 
@@ -84,7 +84,7 @@ export function buildPrettyReport(
 	return lines.join("\n");
 }
 
-function humanizeBytes(bytes: number): string {
+export function humanizeBytes(bytes: number): string {
 	let suffix = "MB";
 	for (const suff of [" B", "KB"]) {
 		if (bytes < 1024) {

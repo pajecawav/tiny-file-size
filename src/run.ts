@@ -12,7 +12,7 @@ export interface FileSize {
 	brotli: number | null;
 }
 
-interface FileSizesOptions {
+export interface FileSizesOptions {
 	files: string[];
 	gzip: boolean;
 	brotli: boolean;
