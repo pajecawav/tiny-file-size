@@ -1,4 +1,4 @@
-import { bold } from "picocolors";
+import colors from "picocolors";
 import { version } from "../package.json";
 import { logger } from "./logger";
 
@@ -11,10 +11,10 @@ export interface Config {
 }
 
 const HELP = `
-${bold("Usage:")}
+${colors.bold("Usage:")}
   file-size [options] [files...]
 
-${bold("Options:")}
+${colors.bold("Options:")}
   -h, --help                     Show help
   -g, --gzip                     Include gzip size in output 
   -b, --brotli                   Include brotli size in output 
@@ -22,7 +22,7 @@ ${bold("Options:")}
       --json                     Print result as json
   -v, --version                  Print the current version and exit
 
-${bold("Examples:")}
+${colors.bold("Examples:")}
   # Show sizes of files foo.js and bar.json
   file-size foo.js bar.json
 

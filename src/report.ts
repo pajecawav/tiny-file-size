@@ -1,5 +1,5 @@
 import path from "path";
-import { bold, dim, green } from "picocolors";
+import colors from "picocolors";
 import { FileSize } from "./run";
 import { sum } from "./utils";
 
@@ -25,17 +25,17 @@ export function buildPrettyReport(
 	);
 
 	function formatSize(size: number): string {
-		return bold(humanizeBytes(size).padStart(longestRawSize));
+		return colors.bold(humanizeBytes(size).padStart(longestRawSize));
 	}
 
 	function formatGzip(size: number): string {
 		const str = humanizeBytes(size).padStart(longestGzipSize);
-		return dim(` │ gzip: ${str}`);
+		return colors.dim(` │ gzip: ${str}`);
 	}
 
 	function formatBrotli(size: number): string {
 		const str = humanizeBytes(size).padStart(longestBrotliSize);
-		return dim(` │ brotli: ${str}`);
+		return colors.dim(` │ brotli: ${str}`);
 	}
 
 	for (const { file, raw, gzip, brotli } of sizes) {
@@ -44,8 +44,7 @@ export function buildPrettyReport(
 		let line = "";
 
 		const basePadding = longestPath - (dir ? dir.length + 1 : 0);
-		const pathStr = (dir ? `${dim(dir)}/` : "") + `${green(base.padEnd(basePadding))}`;
-		line += pathStr;
+		line += (dir ? `${colors.dim(dir)}/` : "") + `${colors.green(base.padEnd(basePadding))}`;
 
 		line += " " + formatSize(raw);
 
@@ -67,7 +66,7 @@ export function buildPrettyReport(
 
 		let line = "";
 
-		line += bold("Total:".padEnd(longestPath));
+		line += colors.bold("Total:".padEnd(longestPath));
 
 		line += " " + formatSize(totalSize);
 

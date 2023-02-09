@@ -1,7 +1,7 @@
-import { bgRed, black, bold, red } from "picocolors";
+import colors from "picocolors";
 
 export const logger = {
 	error(message: string) {
-		console.error(bgRed(bold(black(" ERROR "))), red(message));
+		console.error(colors.bgRed(colors.bold(colors.black(" ERROR "))), colors.red(message));
 	},
 };
