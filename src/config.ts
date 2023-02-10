@@ -3,7 +3,7 @@ import { version } from "../package.json";
 import { logger } from "./logger";
 
 export interface Config {
-	files: string[];
+	globs: string[];
 	gzip: boolean;
 	brotli: boolean;
 	output: "json" | "pretty";
@@ -12,7 +12,7 @@ export interface Config {
 
 const HELP = `
 ${colors.bold("Usage:")}
-  file-size [options] [files...]
+  file-size [options] [globs...]
 
 ${colors.bold("Options:")}
   -h, --help                     Show help
@@ -35,7 +35,7 @@ ${colors.bold("Examples:")}
 
 export function parseArgs(args: string[]): Config {
 	const cfg: Config = {
-		files: [],
+		globs: [],
 		gzip: false,
 		brotli: false,
 		output: "pretty",
@@ -46,7 +46,7 @@ export function parseArgs(args: string[]): Config {
 		const arg = args[i];
 
 		if (arg[0] !== "-") {
-			cfg.files = args.slice(i);
+			cfg.globs = args.slice(i);
 			break;
 		}
 

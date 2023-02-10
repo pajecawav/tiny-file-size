@@ -37,18 +37,9 @@ export async function getFileSizes(config: FileSizesOptions): Promise<FileSize[]
 export function getFilesFromGlobs(globs: string[]): string[] {
 	const filesSet = new Set<string>();
 
-	for (const globOrFile of globs) {
-		// each
-		if (glob.hasMagic(globOrFile)) {
-			for (const file of glob.sync(globOrFile)) {
-				filesSet.add(file);
-			}
-		} else {
-			if (!existsSync(globOrFile) || !statSync(globOrFile).isFile()) {
-				throw new Error(`No such file ${globOrFile}`);
-			}
-
-			filesSet.add(globOrFile);
+	for (const g of globs) {
+		for (const file of glob.sync(g)) {
+			filesSet.add(file);
 		}
 	}
 
@@ -56,17 +47,7 @@ export function getFilesFromGlobs(globs: string[]): string[] {
 }
 
 export async function run(config: Config) {
-	let files: string[];
-	try {
-		files = getFilesFromGlobs(config.files);
-	} catch (e: unknown) {
-		if (!(e instanceof Error)) {
-			throw e;
-		}
-
-		logger.error(e.message);
-		process.exit(1);
-	}
+	const files = getFilesFromGlobs(config.globs);
 
 	let sizes: FileSize[];
 	try {

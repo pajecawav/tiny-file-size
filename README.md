@@ -32,7 +32,7 @@ You can run `file-size --help` to get a help message:
 
 ```
 Usage:
-  file-size [options] [files...]
+  file-size [options] [globs...]
 
 Options:
   -h, --help                     Show help

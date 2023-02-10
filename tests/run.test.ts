@@ -27,12 +27,4 @@ describe("getFilesFromGlobs", () => {
 		]);
 		expect(files).toMatchSnapshot();
 	});
-
-	it("throws when file doesn't exist", () => {
-		const fn = () => {
-			getFilesFromGlobs([resolveDataFixture("lorem.txt"), resolveDataFixture("doesntexist")]);
-		};
-
-		expect(fn).toThrow(/no such file/i);
-	});
 });

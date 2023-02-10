@@ -2,14 +2,14 @@ import { describe, expect, it } from "vitest";
 import { parseArgs } from "../src/config";
 
 describe("config", () => {
-	it("parses list of files", () => {
-		const config = parseArgs(["foo.txt", "foo.md", "bar.json"]);
-		expect(config.files).toStrictEqual(["foo.txt", "foo.md", "bar.json"]);
+	it("parses list of globs", () => {
+		const config = parseArgs(["foo.txt", "*.{md,js}", "bar.json"]);
+		expect(config.globs).toStrictEqual(["foo.txt", "*.{md,js}", "bar.json"]);
 	});
 
 	it("treats all arguments after first non-option as a list of files", () => {
 		const config = parseArgs(["--gzip", "foo.txt", "--json", "bar.json"]);
-		expect(config.files).toStrictEqual(["foo.txt", "--json", "bar.json"]);
+		expect(config.globs).toStrictEqual(["foo.txt", "--json", "bar.json"]);
 		expect(config.output).toBe("pretty");
 	});
 
