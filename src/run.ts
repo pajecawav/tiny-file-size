@@ -1,4 +1,3 @@
-import { existsSync, statSync } from "fs";
 import glob from "glob";
 import { getBrotliSize, getGzipSize, getRawSize } from "./compress";
 import { Config } from "./config";
@@ -38,7 +37,7 @@ export function getFilesFromGlobs(globs: string[]): string[] {
 	const filesSet = new Set<string>();
 
 	for (const g of globs) {
-		for (const file of glob.sync(g)) {
+		for (const file of glob.sync(g, { nodir: true })) {
 			filesSet.add(file);
 		}
 	}
