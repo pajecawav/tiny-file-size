@@ -23,6 +23,7 @@
 		"dist/*.js",
 		"dist/*.mjs",
 		"dist/*.js.map",
+		"dist/*.mjs.map",
 		"dist/*.d.ts"
 	],
 	"license": "MIT",
