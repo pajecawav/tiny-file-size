@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`getFileSizes > counts gzip and brotli sizes 1`] = `
 [
@@ -48,16 +48,16 @@ exports[`getFileSizes > counts raw sizes by default 1`] = `
 
 exports[`getFilesFromGlobs > supports globs 1`] = `
 [
-  "tests/fixtures/data/foo.md",
-  "tests/fixtures/data/lorem.md",
   "tests/fixtures/data/lorem.txt",
+  "tests/fixtures/data/lorem.md",
+  "tests/fixtures/data/foo.md",
 ]
 `;
 
 exports[`getFilesFromGlobs > treats strings without dynamic patterns as paths 1`] = `
 [
   "tests/fixtures/data/lorem.txt",
-  "tests/fixtures/data/foo.md",
   "tests/fixtures/data/lorem.md",
+  "tests/fixtures/data/foo.md",
 ]
 `;
