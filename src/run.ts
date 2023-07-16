@@ -27,7 +27,7 @@ export async function getFileSizes(config: FileSizesOptions): Promise<FileSize[]
 			]);
 
 			return { file, raw, gzip, brotli };
-		})
+		}),
 	);
 
 	return sizes;

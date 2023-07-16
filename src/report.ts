@@ -13,7 +13,7 @@ export interface PrettyReportOptions {
 
 export function buildPrettyReport(
 	sizes: FileSize[],
-	{ total = false }: PrettyReportOptions = {}
+	{ total = false }: PrettyReportOptions = {},
 ): string {
 	const lines: string[] = [];
 
@@ -21,7 +21,7 @@ export function buildPrettyReport(
 	const longestRawSize = Math.max(...sizes.map(size => humanizeBytes(size.raw).length));
 	const longestGzipSize = Math.max(...sizes.map(size => humanizeBytes(size.gzip ?? 0).length));
 	const longestBrotliSize = Math.max(
-		...sizes.map(size => humanizeBytes(size.brotli ?? 0).length)
+		...sizes.map(size => humanizeBytes(size.brotli ?? 0).length),
 	);
 
 	function formatSize(size: number): string {
