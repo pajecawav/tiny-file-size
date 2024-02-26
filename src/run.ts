@@ -1,3 +1,4 @@
+import { statSync } from "fs";
 import { globSync } from "glob";
 import { getBrotliSize, getGzipSize, getRawSize } from "./compress";
 import { Config } from "./config";
@@ -37,7 +38,9 @@ export function getFilesFromGlobs(globs: string[]): string[] {
 	const filesSet = new Set<string>();
 
 	for (const g of globs) {
-		for (const file of globSync(g, { nodir: true })) {
+		const isGlobADirectory = statSync(g, { throwIfNoEntry: false })?.isDirectory();
+		const fullGlob = isGlobADirectory ? `${g}/**/*` : g;
+		for (const file of globSync(fullGlob, { nodir: true })) {
 			filesSet.add(file);
 		}
 	}
