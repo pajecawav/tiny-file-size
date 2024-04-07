@@ -3,6 +3,7 @@
 exports[`compress > calculates raw size 1`] = `
 [
   2519,
+  17346,
   4183,
   2877,
 ]
@@ -11,6 +12,7 @@ exports[`compress > calculates raw size 1`] = `
 exports[`compress > compresses with brotli 1`] = `
 [
   1395,
+  5718,
   2193,
   1142,
 ]
@@ -19,6 +21,7 @@ exports[`compress > compresses with brotli 1`] = `
 exports[`compress > compresses with gzip 1`] = `
 [
   1484,
+  5734,
   2410,
   1205,
 ]

@@ -9,6 +9,12 @@ exports[`getFileSizes > counts gzip and brotli sizes 1`] = `
     "raw": 2519,
   },
   {
+    "brotli": null,
+    "file": "tests/fixtures/data/image.png",
+    "gzip": null,
+    "raw": 17346,
+  },
+  {
     "brotli": 2193,
     "file": "tests/fixtures/data/lorem.md",
     "gzip": 2410,
@@ -30,6 +36,12 @@ exports[`getFileSizes > counts raw sizes by default 1`] = `
     "file": "tests/fixtures/data/foo.md",
     "gzip": null,
     "raw": 2519,
+  },
+  {
+    "brotli": null,
+    "file": "tests/fixtures/data/image.png",
+    "gzip": null,
+    "raw": 17346,
   },
   {
     "brotli": null,

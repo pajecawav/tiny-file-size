@@ -4,6 +4,7 @@ import { getBrotliSize, getGzipSize, getRawSize } from "./compress";
 import { Config } from "./config";
 import { logger } from "./logger";
 import { buildJsonReport, buildPrettyReport } from "./report";
+import { isBinaryFile } from "./utils";
 
 export interface FileSize {
 	file: string;
@@ -23,8 +24,8 @@ export async function getFileSizes(config: FileSizesOptions): Promise<FileSize[]
 		config.files.map(async file => {
 			const [raw, gzip, brotli] = await Promise.all([
 				getRawSize(file),
-				config.gzip ? getGzipSize(file) : null,
-				config.brotli ? getBrotliSize(file) : null,
+				config.gzip && !isBinaryFile(file) ? getGzipSize(file) : null,
+				config.brotli && !isBinaryFile(file) ? getBrotliSize(file) : null,
 			]);
 
 			return { file, raw, gzip, brotli };
