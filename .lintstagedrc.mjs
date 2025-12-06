@@ -1,6 +1,4 @@
 export default {
-	"*.{js,jsx,ts,tsx,cjs,cts,json,md,yml,css}": filenames =>
-		`prettier --write ${filenames.map(filename => `'${filename}'`).join(" ")}`,
-	"src/**/*.{js,jsx,ts,tsx}": () => "pnpm lint:tsc",
-	"src/**/*.{js,jsx,ts,tsx}": "eslint",
+	"*.{js,jsx,mjs,ts,tsx,cjs,cts,json,md,yml,css}": "prettier --write",
+	"src/**/*.{js,jsx,ts,tsx}": [() => "pnpm lint:tsc", "eslint"],
 };
