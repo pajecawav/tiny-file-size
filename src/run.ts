@@ -38,11 +38,17 @@ export async function getFileSizes(config: FileSizesOptions): Promise<FileSize[]
 export function getFilesFromGlobs(globs: string[]): string[] {
 	const filesSet = new Set<string>();
 
-	for (const g of globs) {
+	const processedGlobs = globs.map(g => {
 		const isGlobADirectory = statSync(g, { throwIfNoEntry: false })?.isDirectory();
-		const fullGlob = isGlobADirectory ? `${g}/**/*` : g;
-		for (const file of globSync(fullGlob, { nodir: true })) {
-			filesSet.add(file);
+		return isGlobADirectory ? `${g}/**/*` : g;
+	});
+
+	for (const match of globSync(processedGlobs, {
+		nodir: true,
+		withFileTypes: true,
+	})) {
+		if (match.isFile()) {
+			filesSet.add(match.relative());
 		}
 	}
 
