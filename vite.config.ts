@@ -5,5 +5,8 @@ export default defineConfig({
 		coverage: {
 			provider: "v8",
 		},
+		env: {
+			FORCE_COLOR: "1",
+		},
 	},
 });

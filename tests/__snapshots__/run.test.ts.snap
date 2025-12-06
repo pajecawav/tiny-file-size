@@ -5,7 +5,7 @@ exports[`getFileSizes > counts gzip and brotli sizes 1`] = `
   {
     "brotli": 1395,
     "file": "tests/fixtures/data/foo.md",
-    "gzip": 1484,
+    "gzip": 1464,
     "raw": 2519,
   },
   {
@@ -17,13 +17,13 @@ exports[`getFileSizes > counts gzip and brotli sizes 1`] = `
   {
     "brotli": 2193,
     "file": "tests/fixtures/data/lorem.md",
-    "gzip": 2410,
+    "gzip": 2360,
     "raw": 4183,
   },
   {
     "brotli": 1142,
     "file": "tests/fixtures/data/lorem.txt",
-    "gzip": 1205,
+    "gzip": 1185,
     "raw": 2877,
   },
 ]

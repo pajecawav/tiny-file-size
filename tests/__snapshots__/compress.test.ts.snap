@@ -20,9 +20,9 @@ exports[`compress > compresses with brotli 1`] = `
 
 exports[`compress > compresses with gzip 1`] = `
 [
-  1484,
-  5734,
-  2410,
-  1205,
+  1464,
+  5816,
+  2360,
+  1185,
 ]
 `;
